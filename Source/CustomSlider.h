@@ -30,6 +30,7 @@ public:
     void resized() override;
     void valueChanged() override;
     void mouseDoubleClick(const MouseEvent&) override;
+    double getValueFromText (const String& text) override;
     void textChanged();
     
     void labelTextChanged(Label *labelThatHasChanged) override;
@@ -48,6 +49,7 @@ private:
     String displayStr;
     double displayVal;
     Font inconsolata;
+    bool showText;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CustomSlider)
 };

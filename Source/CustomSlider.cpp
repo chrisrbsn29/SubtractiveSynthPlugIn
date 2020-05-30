@@ -33,6 +33,7 @@ void CustomSlider::init(ValueType vt){
     label.setBounds(0,0,0,0);
     label.setVisible(false);
     label.addListener(this);
+    showText = true;
 
 }
 
@@ -82,10 +83,11 @@ void CustomSlider::updateDisplayValue(float valueFromSlider)
 
 void CustomSlider::paint(Graphics& g)
 {
-    g.setFont(Font(inconsolata.withHeight(this->getBounds().getHeight() * 0.50f)));
-    g.setColour(Colours::white);
-    g.drawText(displayStr, 0, 0, this->getBounds().getWidth(),this->getBounds().getHeight(), Justification::centred);
-
+    if(showText){
+        g.setFont(Font(inconsolata.withHeight(this->getBounds().getHeight() * 0.50f)));
+        g.setColour(Colours::white);
+        g.drawText(displayStr, 0, 0, this->getBounds().getWidth(),this->getBounds().getHeight(), Justification::centred);
+    }
 }
 
 void CustomSlider::resized(){
@@ -123,10 +125,21 @@ void CustomSlider::labelTextChanged(Label *labelThatHasChanged)
 }
 void CustomSlider::editorShown (Label *, TextEditor &)
 {
-    
+    showText = false;
+    repaint();
 }
 void CustomSlider::editorHidden (Label *, TextEditor &)
 {
     label.setBounds(0, 0, 0, 0);
     label.setVisible(false);
+    showText = true;
+    repaint();
+}
+
+double CustomSlider::getValueFromText(const String& text){
+    if(text.endsWith(msSuffix) || text.endsWith("ms")){
+        return 0.001 * text.initialSectionContainingOnly ("0123456789.,-")
+        .getDoubleValue();
+    }
+    else return Slider::getValueFromText(text);
 }
