@@ -12,6 +12,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "CustomSlider.h"
 
 //==============================================================================
 /*
@@ -24,25 +25,27 @@ public:
 
     void paint (Graphics&) override;
     void resized() override;
+    
 
 private:
     
-    Slider qValSlider;
-    Slider attackSlider;
-    Slider decaySlider;
-    Slider sustainSlider;
-    Slider releaseSlider;
+    CustomSlider qValSlider;
+    CustomSlider attackSlider;
+    CustomSlider decaySlider;
+    CustomSlider sustainSlider;
+    CustomSlider releaseSlider;
     Label attackLabel;
     Label decayLabel;
     Label sustainLabel;
     Label releaseLabel;
     Label purityLabel;
+    Font inconsolata;
     
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> qVal;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> attackVal;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> decayVal;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> sustainVal;
-    ScopedPointer<AudioProcessorValueTreeState::SliderAttachment> releaseVal;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> qVal;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> attackVal;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> decayVal;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> sustainVal;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> releaseVal;
     
     SubtractiveSynthPlugInAudioProcessor& processor;
     

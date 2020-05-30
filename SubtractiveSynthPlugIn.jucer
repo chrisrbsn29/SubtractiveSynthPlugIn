@@ -6,6 +6,9 @@
               companyName="Neanderthal">
   <MAINGROUP id="OD3CxT" name="SubtractiveSynthPlugIn">
     <GROUP id="{D70030AF-E3E2-BBF4-9B4A-61D9C8FBC8F1}" name="Source">
+      <FILE id="rgqCI8" name="CustomSlider.cpp" compile="1" resource="0"
+            file="Source/CustomSlider.cpp"/>
+      <FILE id="kBtKTf" name="CustomSlider.h" compile="0" resource="0" file="Source/CustomSlider.h"/>
       <FILE id="CxPBlo" name="FrontGui.cpp" compile="1" resource="0" file="Source/FrontGui.cpp"/>
       <FILE id="ltdOWB" name="FrontGui.h" compile="0" resource="0" file="Source/FrontGui.h"/>
       <FILE id="z2enzg" name="AnimatedBg.cpp" compile="1" resource="0" file="Source/AnimatedBg.cpp"/>
@@ -22,6 +25,12 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="EeszTI" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
+    <FILE id="pRcw0j" name="Inconsolata-ExtraLight.ttf" compile="0" resource="1"
+          file="../../../Library/Fonts/Inconsolata-ExtraLight.ttf"/>
+    <FILE id="qEVImC" name="InconsolataLight.ttf" compile="0" resource="1"
+          file="../../../Library/Fonts/InconsolataLight.ttf"/>
+    <FILE id="G4XWyf" name="Inconsolata-Regular.ttf" compile="0" resource="1"
+          file="../../../Library/Fonts/Inconsolata-Regular.ttf"/>
   </MAINGROUP>
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">

@@ -77,6 +77,10 @@
 			isa = PBXBuildFile;
 			fileRef = 3D093F2E6E634BFA72A3626F;
 		};
+		C2AAEA127E6E4B09E2DD3A77 = {
+			isa = PBXBuildFile;
+			fileRef = F0CA40C967B5ECA2B6324303;
+		};
 		84DABBB8040919243C66D7F4 = {
 			isa = PBXBuildFile;
 			fileRef = FA0577091CF13E8B6FDF9398;
@@ -100,6 +104,10 @@
 		AD5DF82E7FA0B41EB949BA83 = {
 			isa = PBXBuildFile;
 			fileRef = 07C780708432D1428ED94339;
+		};
+		D2D30A02BA79D307F827F57A = {
+			isa = PBXBuildFile;
+			fileRef = B1B2663904BF08DB44D36B63;
 		};
 		81B01D24683A5BFE6432339E = {
 			isa = PBXBuildFile;
@@ -255,6 +263,13 @@
 			path = "../../JuceLibraryCode/include_juce_events.mm";
 			sourceTree = "SOURCE_ROOT";
 		};
+		22BCB8489BB32D78478C6059 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file.ttf;
+			name = "Inconsolata-ExtraLight.ttf";
+			path = "../../../../../Library/Fonts/Inconsolata-ExtraLight.ttf";
+			sourceTree = "SOURCE_ROOT";
+		};
 		23F234DA9452044D35AD5709 = {
 			isa = PBXFileReference;
 			lastKnownFileType = text.plist.xml;
@@ -290,6 +305,13 @@
 			path = "../../JuceLibraryCode/include_juce_audio_plugin_client_VST_utils.mm";
 			sourceTree = "SOURCE_ROOT";
 		};
+		281F130C4B3FF9FACDB40290 = {
+			isa = PBXFileReference;
+			lastKnownFileType = file.ttf;
+			name = "Inconsolata-Regular.ttf";
+			path = "../../../../../Library/Fonts/Inconsolata-Regular.ttf";
+			sourceTree = "SOURCE_ROOT";
+		};
 		2B41BBFD0B0ABD2E3088C2FD = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -303,6 +325,13 @@
 			name = Cocoa.framework;
 			path = System/Library/Frameworks/Cocoa.framework;
 			sourceTree = SDKROOT;
+		};
+		2D682736CFB0EACF87A5008F = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = BinaryData.h;
+			path = ../../JuceLibraryCode/BinaryData.h;
+			sourceTree = "SOURCE_ROOT";
 		};
 		300E332500D1205DFA189CA0 = {
 			isa = PBXFileReference;
@@ -387,6 +416,13 @@
 			name = "juce_audio_plugin_client";
 			path = "~/JUCE/modules/juce_audio_plugin_client";
 			sourceTree = "<absolute>";
+		};
+		56C839A644CBCD92E3896C76 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = CustomSlider.h;
+			path = ../../Source/CustomSlider.h;
+			sourceTree = "SOURCE_ROOT";
 		};
 		591F0BF6FF3CD592C0C5CF8E = {
 			isa = PBXFileReference;
@@ -486,62 +522,6 @@
 			path = ../../Source/PluginProcessor.h;
 			sourceTree = "SOURCE_ROOT";
 		};
-		97D5EDCD3FEFD11A92E179FF = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = QuartzCore.framework;
-			path = System/Library/Frameworks/QuartzCore.framework;
-			sourceTree = SDKROOT;
-		};
-		AA530A75333419AA866C78DD = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = AnimatedBg.h;
-			path = ../../Source/AnimatedBg.h;
-			sourceTree = "SOURCE_ROOT";
-		};
-		AB76CA4D3EC7F97110E6D525 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = SynthVoice.h;
-			path = ../../Source/SynthVoice.h;
-			sourceTree = "SOURCE_ROOT";
-		};
-		BBBEAD200119DB187C9964D3 = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = AudioToolbox.framework;
-			path = System/Library/Frameworks/AudioToolbox.framework;
-			sourceTree = SDKROOT;
-		};
-		C953504B88F62E44F9F6210C = {
-			isa = PBXFileReference;
-			explicitFileType = wrapper.cfbundle;
-			includeInIndex = 0;
-			path = SubtractiveSynthPlugIn.vst;
-			sourceTree = "BUILT_PRODUCTS_DIR";
-		};
-		CF3EC80E7AFDDCEF2A157CCE = {
-			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
-			name = OpenGL.framework;
-			path = System/Library/Frameworks/OpenGL.framework;
-			sourceTree = SDKROOT;
-		};
-		D76CE2356172B22C5D0F66FA = {
-			isa = PBXFileReference;
-			explicitFileType = wrapper.cfbundle;
-			includeInIndex = 0;
-			path = SubtractiveSynthPlugIn.vst3;
-			sourceTree = "BUILT_PRODUCTS_DIR";
-		};
-		8EDAA0EABBB0C1CB67FEB2EB = {
-			isa = PBXFileReference;
-			explicitFileType = wrapper.cfbundle;
-			includeInIndex = 0;
-			path = SubtractiveSynthPlugIn.component;
-			sourceTree = "BUILT_PRODUCTS_DIR";
-		};
 		93D9E3507EBD3AB0762C81DB = {
 			isa = PBXFileReference;
 			lastKnownFileType = file;
@@ -555,6 +535,13 @@
 			name = "juce_audio_basics";
 			path = "~/JUCE/modules/juce_audio_basics";
 			sourceTree = "<absolute>";
+		};
+		97D5EDCD3FEFD11A92E179FF = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = QuartzCore.framework;
+			path = System/Library/Frameworks/QuartzCore.framework;
+			sourceTree = SDKROOT;
 		};
 		9D9C7E7D6813C4FCD2411A20 = {
 			isa = PBXFileReference;
@@ -577,12 +564,26 @@
 			path = "~/JUCE/modules/juce_data_structures";
 			sourceTree = "<absolute>";
 		};
+		B1B2663904BF08DB44D36B63 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = BinaryData.cpp;
+			path = ../../JuceLibraryCode/BinaryData.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		B2332A84472D15FA49A55F29 = {
 			isa = PBXFileReference;
 			lastKnownFileType = file.r;
 			name = "include_juce_audio_plugin_client_AU.r";
 			path = "../../JuceLibraryCode/include_juce_audio_plugin_client_AU.r";
 			sourceTree = "SOURCE_ROOT";
+		};
+		BBBEAD200119DB187C9964D3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AudioToolbox.framework;
+			path = System/Library/Frameworks/AudioToolbox.framework;
+			sourceTree = SDKROOT;
 		};
 		BF85631166CE0568A66FCC82 = {
 			isa = PBXFileReference;
@@ -591,11 +592,53 @@
 			path = "~/JUCE/modules/juce_events";
 			sourceTree = "<absolute>";
 		};
+		C953504B88F62E44F9F6210C = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			path = SubtractiveSynthPlugIn.vst;
+			sourceTree = "BUILT_PRODUCTS_DIR";
+		};
 		CA2E580B7EA51664ECF4CB8E = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.c.h;
 			name = FrontGui.h;
 			path = ../../Source/FrontGui.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		CF3EC80E7AFDDCEF2A157CCE = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = OpenGL.framework;
+			path = System/Library/Frameworks/OpenGL.framework;
+			sourceTree = SDKROOT;
+		};
+		D76CE2356172B22C5D0F66FA = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			path = SubtractiveSynthPlugIn.vst3;
+			sourceTree = "BUILT_PRODUCTS_DIR";
+		};
+		8EDAA0EABBB0C1CB67FEB2EB = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			path = SubtractiveSynthPlugIn.component;
+			sourceTree = "BUILT_PRODUCTS_DIR";
+		};
+		AA530A75333419AA866C78DD = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = AnimatedBg.h;
+			path = ../../Source/AnimatedBg.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		AB76CA4D3EC7F97110E6D525 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = SynthVoice.h;
+			path = ../../Source/SynthVoice.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		CD6528D460324B096E06E62B = {
@@ -668,6 +711,20 @@
 			path = "../../JuceLibraryCode/include_juce_audio_utils.mm";
 			sourceTree = "SOURCE_ROOT";
 		};
+		F0CA40C967B5ECA2B6324303 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = CustomSlider.cpp;
+			path = ../../Source/CustomSlider.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
+		F1F6D8EDB89855EE6FC667EA = {
+			isa = PBXFileReference;
+			lastKnownFileType = file.ttf;
+			name = InconsolataLight.ttf;
+			path = ../../../../../Library/Fonts/InconsolataLight.ttf;
+			sourceTree = "SOURCE_ROOT";
+		};
 		FA0577091CF13E8B6FDF9398 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -685,6 +742,8 @@
 		9EDC2F6E4B21B96359D65383 = {
 			isa = PBXGroup;
 			children = (
+				F0CA40C967B5ECA2B6324303,
+				56C839A644CBCD92E3896C76,
 				FA0577091CF13E8B6FDF9398,
 				CA2E580B7EA51664ECF4CB8E,
 				6837AE9F79685A9AC93E15C3,
@@ -705,6 +764,9 @@
 			isa = PBXGroup;
 			children = (
 				9EDC2F6E4B21B96359D65383,
+				22BCB8489BB32D78478C6059,
+				F1F6D8EDB89855EE6FC667EA,
+				281F130C4B3FF9FACDB40290,
 			);
 			name = SubtractiveSynthPlugIn;
 			sourceTree = "<group>";
@@ -735,6 +797,8 @@
 			isa = PBXGroup;
 			children = (
 				70EC9295B8B7E125690F1F59,
+				B1B2663904BF08DB44D36B63,
+				2D682736CFB0EACF87A5008F,
 				3E72F5D6589E2DBFF5E74BA5,
 				8241AE2AC1676412E4D9F110,
 				05F4C9AF2E4FFF405C745534,
@@ -1587,12 +1651,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2AAEA127E6E4B09E2DD3A77,
 				84DABBB8040919243C66D7F4,
 				81E15CCB14A14CC086FEB0B7,
 				82FBE8B06BC7BB3E4AE323FE,
 				521313D2715E4D5090520F6E,
 				F55AF3B9A6BFF0FB47FD3DC5,
 				AD5DF82E7FA0B41EB949BA83,
+				D2D30A02BA79D307F827F57A,
 				81B01D24683A5BFE6432339E,
 				0F8D06301C70C976A510EAC8,
 				4F8F87C1B330EEE77A28F680,

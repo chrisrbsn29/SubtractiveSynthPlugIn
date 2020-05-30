@@ -24,11 +24,11 @@ SubtractiveSynthPlugInAudioProcessor::SubtractiveSynthPlugInAudioProcessor()
                      #endif
                        ),
     tree(*this, nullptr, "PARAMETERS",
-        {   std::make_unique<AudioParameterFloat>("attack-value", "Attack", NormalisableRange<float>(0.001f, 20.0f), 0.1f),
-        std::make_unique<AudioParameterFloat>("decay-value", "Decay", NormalisableRange<float>(0.001f, 60.0f), 1.0f),
-        std::make_unique<AudioParameterFloat>("sustain-value", "Sustain", NormalisableRange<float>(0.0f, 100.0f), 80.0f),
-            std::make_unique<AudioParameterFloat>("release-value", "Release", NormalisableRange<float>(0.001f, 60.0f), 0.1f),
-            std::make_unique<AudioParameterFloat>("q-value", "qVal", NormalisableRange<float>(0.0f, 100.0f), 1.0f)
+         {   std::make_unique<AudioParameterFloat>("attack-value", "Attack", NormalisableRange<float>(0.001f, 20.0f, 0.00001f, 0.23f), 0.1f),
+        std::make_unique<AudioParameterFloat>("decay-value", "Decay", NormalisableRange<float>(0.001f, 60.0f, 0.00001f, 0.2f), 1.0f),
+        std::make_unique<AudioParameterFloat>("sustain-value", "Sustain", NormalisableRange<float>(0.0f, 100.0f, 1.0f, 1.0f), 80.0f),
+        std::make_unique<AudioParameterFloat>("release-value", "Release", NormalisableRange<float>(0.001f, 60.0f, 0.00001f, 0.2f), 0.1f),
+        std::make_unique<AudioParameterFloat>("q-value", "qVal", NormalisableRange<float>(0.0f, 100.0f, 1.0f, 1.0f), 80.0f)
     })
 #endif
 {

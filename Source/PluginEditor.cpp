@@ -13,7 +13,7 @@
 
 //==============================================================================
 SubtractiveSynthPlugInAudioProcessorEditor::SubtractiveSynthPlugInAudioProcessorEditor (SubtractiveSynthPlugInAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p), animatedBg(p), frontGui(p)
+    : AudioProcessorEditor (&p), animatedBg(p), frontGui(p), processor (p)
     {
         
     // Make sure you set the size of the component after
@@ -24,8 +24,6 @@ SubtractiveSynthPlugInAudioProcessorEditor::SubtractiveSynthPlugInAudioProcessor
         
     addAndMakeVisible(&animatedBg);
     addAndMakeVisible(&frontGui);
-    
-    
 }
 
 SubtractiveSynthPlugInAudioProcessorEditor::~SubtractiveSynthPlugInAudioProcessorEditor()
@@ -45,7 +43,5 @@ void SubtractiveSynthPlugInAudioProcessorEditor::paint (Graphics& g)
 
 void SubtractiveSynthPlugInAudioProcessorEditor::resized()
 {
-//    int frontGuiWidth = 600;
-//    int frontGuiHeight = 300;
-    frontGui.setTopLeftPosition(100, 150);
+    frontGui.setTopLeftPosition(0, 100);
 }
