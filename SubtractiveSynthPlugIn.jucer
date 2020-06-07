@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="lhBHdO" name="SubtractiveSynthPlugIn" projectType="audioplug"
-              jucerVersion="5.4.7" pluginManufacturer="Neanderthal" pluginFormats="buildAU,buildVST,buildVST3"
+              jucerVersion="5.4.7" pluginManufacturer="Neanderthal" pluginFormats="buildAU,buildVST3"
               pluginCharacteristicsValue="pluginIsSynth,pluginWantsMidiIn"
               companyName="Neanderthal">
   <MAINGROUP id="OD3CxT" name="SubtractiveSynthPlugIn">
     <GROUP id="{D70030AF-E3E2-BBF4-9B4A-61D9C8FBC8F1}" name="Source">
+      <FILE id="Ui1G62" name="Oscillator.cpp" compile="1" resource="0" file="Source/Oscillator.cpp"/>
+      <FILE id="r6V1mC" name="Oscillator.h" compile="0" resource="0" file="Source/Oscillator.h"/>
       <FILE id="rgqCI8" name="CustomSlider.cpp" compile="1" resource="0"
             file="Source/CustomSlider.cpp"/>
       <FILE id="kBtKTf" name="CustomSlider.h" compile="0" resource="0" file="Source/CustomSlider.h"/>

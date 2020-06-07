@@ -35,6 +35,7 @@ public:
    #endif
 
     void processBlock (AudioBuffer<float>&, MidiBuffer&) override;
+    int getActiveVoiceCounter();
     
     //==============================================================================
     AudioProcessorEditor* createEditor() override;
@@ -54,7 +55,6 @@ public:
     void setCurrentProgram (int index) override;
     const String getProgramName (int index) override;
     void changeProgramName (int index, const String& newName) override;
-    int getActiveVoiceCounter();
 
     //==============================================================================
     void getStateInformation (MemoryBlock& destData) override;
@@ -63,12 +63,15 @@ public:
     AudioProcessorValueTreeState tree;
     
 private:
+
+    
     Synthesiser synth;
     SynthVoice* voice;
    
     double prevSampleRate;
     int previousSampleNumber;
     int activeVoiceCounter;
+
     
 
 

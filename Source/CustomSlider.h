@@ -20,7 +20,9 @@ class CustomSlider    : public Slider,
 public:
     enum ValueType{
         Seconds,
-        Percent
+        Percent,
+        Decibels,
+        Neutral
     };
     
     CustomSlider();

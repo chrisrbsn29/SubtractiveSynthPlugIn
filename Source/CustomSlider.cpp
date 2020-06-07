@@ -34,7 +34,7 @@ void CustomSlider::init(ValueType vt){
     label.setVisible(false);
     label.addListener(this);
     showText = true;
-
+    updateDisplayValue(this->getValue());
 }
 
 void CustomSlider::updateDisplayValue(float valueFromSlider)
@@ -46,7 +46,6 @@ void CustomSlider::updateDisplayValue(float valueFromSlider)
             displayVal = (int)(valueFromSlider * 100000.0 + 0.5);
             displayVal = displayVal * 0.01; //2 decimal precision
             displayStr = String(displayVal, 2) + msSuffix;
-            
         }
         else if(valueFromSlider < 0.1f && valueFromSlider >= 0.01f)
         {                                                         // 10 msec to 99.99ms
@@ -73,6 +72,16 @@ void CustomSlider::updateDisplayValue(float valueFromSlider)
             displayVal = displayVal * 0.1;
             displayStr = String(displayVal, 1) + secSuffix;
         }
+    }
+    else if (valueType == ValueType::Neutral)
+    {
+        displayVal = (int) valueFromSlider;
+        displayStr = String(displayVal);
+    }
+    else if (valueType == ValueType::Decibels)
+    {
+        displayVal = (int) valueFromSlider;
+        displayStr = String(displayVal) + "db";
     }
     else
     { //if percent

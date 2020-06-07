@@ -5,10 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-		49037F2EAFD49E4A8DE4DA97 = {
-			isa = PBXBuildFile;
-			fileRef = C953504B88F62E44F9F6210C;
-		};
 		71EEB7DEBC29884540D4DEED = {
 			isa = PBXBuildFile;
 			fileRef = D76CE2356172B22C5D0F66FA;
@@ -77,6 +73,10 @@
 			isa = PBXBuildFile;
 			fileRef = 3D093F2E6E634BFA72A3626F;
 		};
+		92C90AD8A692F91A9B87FF3E = {
+			isa = PBXBuildFile;
+			fileRef = B1653FD77314E8B6EEE7C36D;
+		};
 		C2AAEA127E6E4B09E2DD3A77 = {
 			isa = PBXBuildFile;
 			fileRef = F0CA40C967B5ECA2B6324303;
@@ -140,10 +140,6 @@
 		EDDC8839663AE0430D0A6AB9 = {
 			isa = PBXBuildFile;
 			fileRef = 27EC08BD799BA8552D3E9541;
-		};
-		063DE8FB0D07EB153E0CD887 = {
-			isa = PBXBuildFile;
-			fileRef = CD6528D460324B096E06E62B;
 		};
 		772165B785AF20EF365D9C1B = {
 			isa = PBXBuildFile;
@@ -564,6 +560,20 @@
 			path = "~/JUCE/modules/juce_data_structures";
 			sourceTree = "<absolute>";
 		};
+		A93EEEED78D4EEF4507E72C3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = Oscillator.h;
+			path = ../../Source/Oscillator.h;
+			sourceTree = "SOURCE_ROOT";
+		};
+		B1653FD77314E8B6EEE7C36D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = Oscillator.cpp;
+			path = ../../Source/Oscillator.cpp;
+			sourceTree = "SOURCE_ROOT";
+		};
 		B1B2663904BF08DB44D36B63 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -591,20 +601,6 @@
 			name = "juce_events";
 			path = "~/JUCE/modules/juce_events";
 			sourceTree = "<absolute>";
-		};
-		C953504B88F62E44F9F6210C = {
-			isa = PBXFileReference;
-			explicitFileType = wrapper.cfbundle;
-			includeInIndex = 0;
-			path = SubtractiveSynthPlugIn.vst;
-			sourceTree = "BUILT_PRODUCTS_DIR";
-		};
-		CA2E580B7EA51664ECF4CB8E = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = FrontGui.h;
-			path = ../../Source/FrontGui.h;
-			sourceTree = "SOURCE_ROOT";
 		};
 		CF3EC80E7AFDDCEF2A157CCE = {
 			isa = PBXFileReference;
@@ -641,11 +637,11 @@
 			path = ../../Source/SynthVoice.h;
 			sourceTree = "SOURCE_ROOT";
 		};
-		CD6528D460324B096E06E62B = {
+		CA2E580B7EA51664ECF4CB8E = {
 			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = "include_juce_audio_plugin_client_VST2.cpp";
-			path = "../../JuceLibraryCode/include_juce_audio_plugin_client_VST2.cpp";
+			lastKnownFileType = sourcecode.c.h;
+			name = FrontGui.h;
+			path = ../../Source/FrontGui.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		CFDBB7506F435448E06BE21F = {
@@ -697,13 +693,6 @@
 			path = "Info-AU.plist";
 			sourceTree = "SOURCE_ROOT";
 		};
-		EB18F6ADF3AE95477480062E = {
-			isa = PBXFileReference;
-			lastKnownFileType = text.plist.xml;
-			name = "Info-VST.plist";
-			path = "Info-VST.plist";
-			sourceTree = "SOURCE_ROOT";
-		};
 		EE4765F491A0CCEEC829783D = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.objcpp;
@@ -742,6 +731,8 @@
 		9EDC2F6E4B21B96359D65383 = {
 			isa = PBXGroup;
 			children = (
+				B1653FD77314E8B6EEE7C36D,
+				A93EEEED78D4EEF4507E72C3,
 				F0CA40C967B5ECA2B6324303,
 				56C839A644CBCD92E3896C76,
 				FA0577091CF13E8B6FDF9398,
@@ -807,7 +798,6 @@
 				6B4EA8E13A8FD581EA10B46C,
 				38EF90B6235B1C2335E03F9C,
 				27EC08BD799BA8552D3E9541,
-				CD6528D460324B096E06E62B,
 				E1D1AF48F4E95FBF5699A5D7,
 				2B41BBFD0B0ABD2E3088C2FD,
 				EE4765F491A0CCEEC829783D,
@@ -828,7 +818,6 @@
 		802235C23EACD7546096F353 = {
 			isa = PBXGroup;
 			children = (
-				EB18F6ADF3AE95477480062E,
 				23F234DA9452044D35AD5709,
 				E7E90919B9786A823291D9AE,
 				3D093F2E6E634BFA72A3626F,
@@ -859,7 +848,6 @@
 		7A1A21F71C873A86BD57D579 = {
 			isa = PBXGroup;
 			children = (
-				C953504B88F62E44F9F6210C,
 				D76CE2356172B22C5D0F66FA,
 				8EDAA0EABBB0C1CB67FEB2EB,
 				D021BF8494502CF057DCC1A6,
@@ -893,110 +881,6 @@
 			buildSettings = {
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				SDKROOT = macosx;
-			};
-			name = Release;
-		};
-		2576A77E3F30CB54172F0E1C = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_IDENTITY = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
-				COPY_PHASE_STRIP = NO;
-				DEPLOYMENT_LOCATION = YES;
-				DSTROOT = /;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"_DEBUG=1",
-					"DEBUG=1",
-					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=1.0.0",
-					"JUCE_APP_VERSION_HEX=0x10000",
-					"JucePlugin_Build_VST=1",
-					"JucePlugin_Build_VST3=0",
-					"JucePlugin_Build_AU=0",
-					"JucePlugin_Build_AUv3=0",
-					"JucePlugin_Build_RTAS=0",
-					"JucePlugin_Build_AAX=0",
-					"JucePlugin_Build_Standalone=0",
-					"JucePlugin_Build_Unity=0",
-				);
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GENERATE_PKGINFO_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(HOME)/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
-					"../../JuceLibraryCode",
-					"$(HOME)/JUCE/modules",
-					"$(HOME)/JUCE/modules/juce_audio_plugin_client",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Info-VST.plist;
-				INFOPLIST_PREPROCESS = NO;
-				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST/";
-				LIBRARY_STYLE = Bundle;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				OTHER_LDFLAGS = "-bundle -lSubtractiveSynthPlugIn";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Neanderthal.SubtractiveSynthPlugIn;
-				PRODUCT_NAME = "SubtractiveSynthPlugIn";
-				USE_HEADERMAP = NO;
-				WRAPPER_EXTENSION = vst;
-			};
-			name = Debug;
-		};
-		D570BAF25EA0158E71D9A714 = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_IDENTITY = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/build/$(CONFIGURATION)";
-				DEAD_CODE_STRIPPING = YES;
-				DEPLOYMENT_LOCATION = YES;
-				DSTROOT = /;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_OPTIMIZATION_LEVEL = 3;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"_NDEBUG=1",
-					"NDEBUG=1",
-					"JUCER_XCODE_MAC_F6D2F4CF=1",
-					"JUCE_APP_VERSION=1.0.0",
-					"JUCE_APP_VERSION_HEX=0x10000",
-					"JucePlugin_Build_VST=1",
-					"JucePlugin_Build_VST3=0",
-					"JucePlugin_Build_AU=0",
-					"JucePlugin_Build_AUv3=0",
-					"JucePlugin_Build_RTAS=0",
-					"JucePlugin_Build_AAX=0",
-					"JucePlugin_Build_Standalone=0",
-					"JucePlugin_Build_Unity=0",
-				);
-				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GENERATE_PKGINFO_FILE = YES;
-				HEADER_SEARCH_PATHS = (
-					"$(HOME)/JUCE/modules/juce_audio_processors/format_types/VST3_SDK",
-					"../../JuceLibraryCode",
-					"$(HOME)/JUCE/modules",
-					"$(HOME)/JUCE/modules/juce_audio_plugin_client",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Info-VST.plist;
-				INFOPLIST_PREPROCESS = NO;
-				INSTALL_PATH = "$(HOME)/Library/Audio/Plug-Ins/VST/";
-				LIBRARY_STYLE = Bundle;
-				LLVM_LTO = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				OTHER_LDFLAGS = "-bundle -lSubtractiveSynthPlugIn";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Neanderthal.SubtractiveSynthPlugIn;
-				PRODUCT_NAME = "SubtractiveSynthPlugIn";
-				USE_HEADERMAP = NO;
-				WRAPPER_EXTENSION = vst;
 			};
 			name = Release;
 		};
@@ -1228,7 +1112,7 @@
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
 					"JUCE_APP_VERSION=1.0.0",
 					"JUCE_APP_VERSION_HEX=0x10000",
-					"JucePlugin_Build_VST=1",
+					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=1",
 					"JucePlugin_Build_AU=1",
 					"JucePlugin_Build_AUv3=0",
@@ -1273,7 +1157,7 @@
 					"JUCER_XCODE_MAC_F6D2F4CF=1",
 					"JUCE_APP_VERSION=1.0.0",
 					"JUCE_APP_VERSION_HEX=0x10000",
-					"JucePlugin_Build_VST=1",
+					"JucePlugin_Build_VST=0",
 					"JucePlugin_Build_VST3=1",
 					"JucePlugin_Build_AU=1",
 					"JucePlugin_Build_AUv3=0",
@@ -1396,10 +1280,6 @@
 			};
 			name = Release;
 		};
-		D5A1341204C051EE10CA6B86 = {
-			isa = PBXTargetDependency;
-			target = E63745ABBA9191EBF4D74AE7;
-		};
 		D6AC23708AAA778EE8A2A40C = {
 			isa = PBXTargetDependency;
 			target = BF44741BF61D64F75ADC2C7E;
@@ -1436,74 +1316,12 @@
 			buildPhases = ( );
 			buildRules = ( );
 			dependencies = (
-				D5A1341204C051EE10CA6B86,
 				D6AC23708AAA778EE8A2A40C,
 				4E99E443EDA7A03B8EAE2B7E,
 				B374C4C0756F811777D73960,
 			);
 			name = "SubtractiveSynthPlugIn - All";
 			productName = SubtractiveSynthPlugIn;
-		};
-		21D2000B10F5B6DB2574FBD8 = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2576A77E3F30CB54172F0E1C,
-				D570BAF25EA0158E71D9A714,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
-		};
-		849889FD177BEE50FBD2E367 = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2142696061FBAEDC247CED20,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5D3DEDEE573DF8126A738CBA = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				063DE8FB0D07EB153E0CD887,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EAE705F95BD9E0AF24C7D49B = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				DB6573754037AFB03BC39C57,
-				676410FCEBDDAFFDD8B8736A,
-				240EE4248B40D306EABECA03,
-				F1AFB663CCAF5C687785EE28,
-				0CB38474A8FF1FF97C483F0F,
-				BE0B79F383FCFB37CB643E4B,
-				F71E4C345903256F1750D26A,
-				F057A46C3F80B14363A5E165,
-				A37A21A42E56D437B5B68F23,
-				B0E9F10FA213CA2D33FE28DA,
-				DC3762F5C3736638AE203A5B,
-				949BF038FE4EBEC1BC8302EB,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E63745ABBA9191EBF4D74AE7 = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 21D2000B10F5B6DB2574FBD8;
-			buildPhases = (
-				849889FD177BEE50FBD2E367,
-				5D3DEDEE573DF8126A738CBA,
-				EAE705F95BD9E0AF24C7D49B,
-			);
-			buildRules = ( );
-			dependencies = (
-				B374C4C0756F811777D73960,
-			);
-			name = "SubtractiveSynthPlugIn - VST";
-			productName = SubtractiveSynthPlugIn;
-			productReference = C953504B88F62E44F9F6210C;
-			productType = "com.apple.product-type.bundle";
 		};
 		351B12DC909B5AA33E09FB75 = {
 			isa = XCConfigurationList;
@@ -1651,6 +1469,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92C90AD8A692F91A9B87FF3E,
 				C2AAEA127E6E4B09E2DD3A77,
 				84DABBB8040919243C66D7F4,
 				81E15CCB14A14CC086FEB0B7,
@@ -1694,13 +1513,13 @@
 		1864D4081E305B35804B631B = {
 			isa = PBXProject;
 			buildConfigurationList = E3C7120B012E3DA41C8FFB93;
-			attributes = { LastUpgradeCheck = 1100; ORGANIZATIONNAME = "Neanderthal"; TargetAttributes = { D2B754E0054A43BD99E2FD2C = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };E63745ABBA9191EBF4D74AE7 = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };BF44741BF61D64F75ADC2C7E = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };BF3E758A370183B86E7C875F = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };32147DDE3F780E0930610019 = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; }; }; };
+			attributes = { LastUpgradeCheck = 1100; ORGANIZATIONNAME = "Neanderthal"; TargetAttributes = { D2B754E0054A43BD99E2FD2C = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };BF44741BF61D64F75ADC2C7E = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };BF3E758A370183B86E7C875F = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; };32147DDE3F780E0930610019 = { SystemCapabilities = {com.apple.ApplicationGroups.iOS = { enabled = 0; }; com.apple.InAppPurchase = { enabled = 0; }; com.apple.InterAppAudio = { enabled = 0; }; com.apple.Push = { enabled = 0; }; com.apple.Sandbox = { enabled = 0; }; com.apple.HardenedRuntime = { enabled = 0; }; }; }; }; };
 			compatibilityVersion = "Xcode 3.2";
 			hasScannedForEncodings = 0;
 			mainGroup = A9490FB1BC90B4506524CBC9;
 			projectDirPath = "";
 			projectRoot = "";
-			targets = (D2B754E0054A43BD99E2FD2C, E63745ABBA9191EBF4D74AE7, BF44741BF61D64F75ADC2C7E, BF3E758A370183B86E7C875F, 32147DDE3F780E0930610019);
+			targets = (D2B754E0054A43BD99E2FD2C, BF44741BF61D64F75ADC2C7E, BF3E758A370183B86E7C875F, 32147DDE3F780E0930610019);
 			knownRegions = (en, Base);
 		};
 	};

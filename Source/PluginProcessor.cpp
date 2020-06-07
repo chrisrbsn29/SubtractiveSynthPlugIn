@@ -24,12 +24,21 @@ SubtractiveSynthPlugInAudioProcessor::SubtractiveSynthPlugInAudioProcessor()
                      #endif
                        ),
     tree(*this, nullptr, "PARAMETERS",
-         {   std::make_unique<AudioParameterFloat>("attack-value", "Attack", NormalisableRange<float>(0.001f, 20.0f, 0.00001f, 0.23f), 0.1f),
-        std::make_unique<AudioParameterFloat>("decay-value", "Decay", NormalisableRange<float>(0.001f, 60.0f, 0.00001f, 0.2f), 0.8f),
+         {   std::make_unique<AudioParameterFloat>("attack-value", "Attack", NormalisableRange<float>(0.00001f, 20.0f, 0.00001f, 0.23f), 0.1f),
+        std::make_unique<AudioParameterFloat>("decay-value", "Decay", NormalisableRange<float>(0.00001f, 60.0f, 0.00001f, 0.2f), 0.8f),
         std::make_unique<AudioParameterFloat>("sustain-value", "Sustain", NormalisableRange<float>(0.0f, 100.0f, 1.0f, 1.0f), 80.0f),
-        std::make_unique<AudioParameterFloat>("release-value", "Release", NormalisableRange<float>(0.001f, 60.0f, 0.00001f, 0.2f), 0.1f),
-        std::make_unique<AudioParameterFloat>("q-value", "qVal", NormalisableRange<float>(0.0f, 100.0f, 1.0f, 1.0f), 80.0f)
+        std::make_unique<AudioParameterFloat>("release-value", "Release", NormalisableRange<float>(0.00001f, 60.0f, 0.00001f, 0.2f), 0.1f),
+        std::make_unique<AudioParameterFloat>("q-value", "qVal", NormalisableRange<float>(0.0f, 100.0f, 1.0f, 1.0f), 80.0f),
+        std::make_unique<AudioParameterFloat>("polyphony-value", "Polyphony", NormalisableRange<float>(1.0f, 12.0f, 1.0f, 1.0f), 8.0f),
+        std::make_unique<AudioParameterFloat>("volume-value", "Volume", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 50.0f),
+        std::make_unique<AudioParameterFloat>("garbage-value", "Garbage", NormalisableRange<float>(0.0f, 100.0f, 0.01f, 1.0f), 0.0f),
+        std::make_unique<AudioParameterFloat>("garbage-wet-dry", "Garbage Wet/Dry", NormalisableRange<float>(0.0f, 100.0f, 1.0f, 1.0f), 0.0f),
+        std::make_unique<AudioParameterFloat>("sine-val", "Sine Val", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
+        std::make_unique<AudioParameterFloat>("tri-val", "Triange Val", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
+        std::make_unique<AudioParameterFloat>("squ-val", "Square Val", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
+        std::make_unique<AudioParameterFloat>("saw-val", "Sawtooth Val", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
     })
+
 #endif
 {
     activeVoiceCounter = 0;
@@ -107,7 +116,8 @@ void SubtractiveSynthPlugInAudioProcessor::prepareToPlay (double sampleRate, int
     prevSampleRate = sampleRate;
     synth.clearVoices();
     
-    for (int i = 0; i < 8; i++)
+    
+    for (int i = 0; i < 36; i++)
     {
         synth.addVoice(new SynthVoice(samplesPerBlock));
     }
@@ -150,8 +160,6 @@ void SubtractiveSynthPlugInAudioProcessor::processBlock (AudioBuffer<float>& buf
 {
     ScopedNoDenormals noDenormals;
     buffer.clear();
-//    auto totalNumInputChannels  = getTotalNumInputChannels();
-//    auto totalNumOutputChannels = getTotalNumOutputChannels();
     activeVoiceCounter = 0;
 
         for (int i = 0; i < synth.getNumVoices(); i++)
@@ -164,12 +172,21 @@ void SubtractiveSynthPlugInAudioProcessor::processBlock (AudioBuffer<float>& buf
                                        tree.getRawParameterValue("sustain-value"),
                                        tree.getRawParameterValue("release-value"));
             voice->updateQVal(tree.getRawParameterValue("q-value"));
-            if(voice->isVoiceActive()) activeVoiceCounter++;
+            voice->updateGarbage(tree.getRawParameterValue("garbage-value"),
+                                 tree.getRawParameterValue("garbage-wet-dry"));
+            voice->updateVolume(tree.getRawParameterValue("volume-value"));
+            voice->updateWaveforms(tree.getRawParameterValue("sine-val"),
+                                   tree.getRawParameterValue("tri-val"),
+                                   tree.getRawParameterValue("squ-val"),
+                                   tree.getRawParameterValue("saw-val"));
+            if(voice->isVoiceActive())
+            {
+                activeVoiceCounter++;
+            }
         }
     }
     
     synth.renderNextBlock(buffer, midiMessages, 0, buffer.getNumSamples());
-
 }
 
 //==============================================================================
@@ -197,9 +214,12 @@ void SubtractiveSynthPlugInAudioProcessor::setStateInformation (const void* data
     // whose contents will have been created by the getStateInformation() call.
 }
 
-int SubtractiveSynthPlugInAudioProcessor::getActiveVoiceCounter(){
+int SubtractiveSynthPlugInAudioProcessor::getActiveVoiceCounter()
+{
     return activeVoiceCounter;
 }
+
+
 //==============================================================================
 // This creates new instances of the plugin..
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
