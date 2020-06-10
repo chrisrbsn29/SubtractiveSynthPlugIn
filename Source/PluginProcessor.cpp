@@ -37,7 +37,7 @@ SubtractiveSynthPlugInAudioProcessor::SubtractiveSynthPlugInAudioProcessor()
         std::make_unique<AudioParameterFloat>("squ-val", "Square Val", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
         std::make_unique<AudioParameterFloat>("saw-val", "Sawtooth Val", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
         std::make_unique<AudioParameterFloat>("lfo-amount", "Pitch LFO Amount", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
-        std::make_unique<AudioParameterFloat>("lfo-speed", "Pitch LFO Speed", NormalisableRange<float>(1.0f, 100.0f, 0.0f, 0.50f), 1.0f),
+        std::make_unique<AudioParameterFloat>("lfo-speed", "Pitch LFO Speed", NormalisableRange<float>(1.0f, 30.0f, 0.0f, 0.50f), 1.0f), //1Hz - 30Hz
         std::make_unique<AudioParameterFloat>("env-filter", "Envelope Filter Amount", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
         std::make_unique<AudioParameterFloat>("lowpass-amount", "Lowpass Filter Amount", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
         std::make_unique<AudioParameterFloat>("lowpass-freq", "Lowpass Filter Frequency", NormalisableRange<float>(100.0f, 20000.0f, 0.0f, 0.10f), 20000.0f)

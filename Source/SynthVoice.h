@@ -24,7 +24,7 @@ public:
     SynthVoice(int samplesPerBlockExpected );
     bool canPlaySound (SynthesiserSound* sound) override;
     void startNote (int midiNoteNumber, float velocity,
-                    SynthesiserSound*, int /*currentPitchWheelPosition*/) override;
+                    SynthesiserSound*, int currentPitchWheelPosition) override;
     void stopNote (float /*velocity*/, bool allowTailOff) override;
     void pitchWheelMoved (int) override;
     void controllerMoved (int, int) override;
@@ -62,6 +62,7 @@ private:
     void wavetableHelper(const int harmonics[], const float harmonicWeights[], AudioBuffer<float>& table,  const int numHarms);
     void setOscFreq();
     void processLfo();
+    void processFilterEnv();
     
     const int numHarmonics = 8;
     const int tableSize = 256;
@@ -75,6 +76,7 @@ private:
     juce::dsp::ProcessorDuplicator<dsp::IIR::Filter<float>, dsp::IIR::Coefficients<float>> lowPassFilter;
     dsp::ProcessSpec spec;
     juce::HeapBlock<char> heapBlock;
+    juce::HeapBlock<char> lpHeapBlock;
     juce::dsp::AudioBlock<float> tempBlock;
     juce::dsp::AudioBlock<float> lpTempBlock;
     juce::AudioBuffer<float> garboBuffer;
@@ -105,7 +107,10 @@ private:
     float pitchLfoSpeed;
     float envFilterAmount;
     float lowPassFreq;
+    float targetLowPassFreq;
     float lowPassAmount;
     float currPitchBendOffset;
-
+    float sweepDistance;
+    float lowestFreq;
+    float highestFreq;
 };

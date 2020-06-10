@@ -14,9 +14,7 @@
 SynthVoice::SynthVoice( int samplesPerBlockExpected )
     :bpFilter(dsp::IIR::Coefficients<float>::makeBandPass (getSampleRate(), 20000.0f, 0.0001f)),
     bpFilter2(dsp::IIR::Coefficients<float>::makeBandPass (getSampleRate(), 20000.0f, 0.0001f)),
-    lowPassFilter(dsp::IIR::Coefficients<float>::makeBandPass (getSampleRate(), 20000.0f)),
-    freqRatio(MidiMessage::getMidiNoteInHertz(16)/MidiMessage::getMidiNoteInHertz(18)), //18 because 16+PITCHBEND
-    qVal(0.0001f)
+    lowPassFilter(dsp::IIR::Coefficients<float>::makeLowPass (getSampleRate(), 20000.0f))
 {
     spec.sampleRate = getSampleRate();
     spec.maximumBlockSize = samplesPerBlockExpected;
@@ -42,12 +40,16 @@ bool SynthVoice::canPlaySound (SynthesiserSound* sound){
 }
 
 void SynthVoice::startNote (int midiNoteNumber, float velocity,
-                            SynthesiserSound*, int /*currentPitchWheelPosition*/) {
+                            SynthesiserSound*, int currentPitchWheelPosition) {
     
     bpFilter.reset();
     bpFilter2.reset();
     lowPassFilter.reset();
     noteNumber = midiNoteNumber;
+    sweepDistance = (lowPassFreq - 100.0f) * envFilterAmount;
+    lowestFreq = lowPassFreq - sweepDistance;
+    highestFreq = lowPassFreq;
+    pitchWheelMoved(currentPitchWheelPosition);
     
     adsr.noteOn();
     level = 0.5;
@@ -58,6 +60,7 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity,
     updateFilter();
     setOscFreq();
     tempBlock = juce::dsp::AudioBlock<float> (heapBlock, spec.numChannels, spec.maximumBlockSize);
+    lpTempBlock = juce::dsp::AudioBlock<float> (lpHeapBlock, spec.numChannels, spec.maximumBlockSize);
     bpFilter.prepare(spec);
     bpFilter2.prepare(spec);
     lowPassFilter.prepare(spec);
@@ -148,6 +151,7 @@ void SynthVoice::renderNextBlock (AudioBuffer<float>& outputBuffer, int startSam
         {
             auto currentSample = level * (-0.25f + (0.5f * (float) random.nextFloat()));
             if( pitchLfoAmount > 0.0f ) processLfo();
+            if( lowPassAmount > 0.0f ) processFilterEnv();
                 
             for (auto i = 0; i < outputBuffer.getNumChannels(); ++i )
             {
@@ -221,10 +225,10 @@ void SynthVoice::getEnvelopeParams(std::atomic<float>* attack, std::atomic<float
 
 void SynthVoice::updateWaveforms(std::atomic<float>* sine, std::atomic<float>* tri, std::atomic<float>* squ, std::atomic<float>* saw)
 {
-    sineVal = pow(2, *sine * 0.05f) * 0.001f;
-    triVal = pow(2, *tri * 0.05f) * 0.001f;
-    squVal = pow(2, *squ * 0.05f) * 0.001f;
-    sawVal = pow(2, *saw * 0.05f) * 0.001f;
+    sineVal = (pow(2, *sine * 0.05f) * 0.001f) - 0.001f;
+    triVal = (pow(2, *tri * 0.05f) * 0.001f) - 0.001f;
+    squVal = (pow(2, *squ * 0.05f) * 0.001f) - 0.001f;
+    sawVal = (pow(2, *saw * 0.05f) * 0.001f) - 0.001f;
 }
 
 void SynthVoice::setADSRSampleRate(double sr)
@@ -338,15 +342,15 @@ inline void SynthVoice::processLowPassFilter(juce::dsp::AudioBlock<float>& block
         lowPassFilter.process(dsp::ProcessContextReplacing<float>(block));
     else
     {
-        lpTempBlock = tempBlock.getSubBlock (0, (size_t) block.getNumSamples());
-        lpTempBlock.clear();
-        lpTempBlock.copyFrom(block);
+        auto block2 = lpTempBlock.getSubBlock (0, (size_t) lpTempBlock.getNumSamples());
+        block2.clear();
+        block2.copyFrom(block);
         lowPassFilter.process(dsp::ProcessContextReplacing<float>(block));
         for (auto i = 0; i < block.getNumChannels(); ++i)
         {
             for (auto sample = 0; sample < block.getNumSamples(); ++sample)
             {
-                block.setSample(i, sample, lowPassAmount * block.getSample(i, sample) + (1.0f - lowPassAmount) * lpTempBlock.getSample(i, sample) );
+                block.setSample(i, sample, (lowPassAmount * block.getSample(i, sample)) + ((1.0f - lowPassAmount) * block2.getSample(i, sample)));
             }
         }
     }
@@ -356,4 +360,17 @@ void SynthVoice::processLfo()
 {
     auto lfoSample = pitchLfo->getNextSample() * pitchLfoAmount * 2.0f; //max lfo = 2 semitones
     frequency = MidiMessage::getMidiNoteInHertz(noteNumber) * pow(2, lfoSample / 12) * currPitchBendOffset;
+}
+
+void SynthVoice::processFilterEnv()
+{
+    auto adsrExp = pow(10, adsrSample * 3.0f) * 0.001f;
+    targetLowPassFreq = (adsrExp * (highestFreq - lowestFreq)) + lowestFreq;
+//    if( targetLowPassFreq > lowPassFreq + 5.0f)
+//        lowPassFreq += 5.0f;
+//    else if( targetLowPassFreq < lowPassFreq - 5.0f)
+//        lowPassFreq -= 5.0f;
+//    else lowPassFreq = targetLowPassFreq;
+    lowPassFreq = targetLowPassFreq;
+    *lowPassFilter.state = *dsp::IIR::Coefficients<float>::makeLowPass (getSampleRate(), lowPassFreq);
 }

@@ -34,7 +34,6 @@ void CustomSlider::init(ValueType vt){
     label.setVisible(false);
     label.addListener(this);
     showText = true;
-    updateDisplayValue(this->getValue());
 }
 
 void CustomSlider::updateDisplayValue(float valueFromSlider)
@@ -82,9 +81,15 @@ void CustomSlider::updateDisplayValue(float valueFromSlider)
     {
         if (valueFromSlider < 10.0f)
         {
-            displayVal = (int) valueFromSlider * 10.0;
-            displayVal = displayVal * 0.1;
+            displayVal = (int) (valueFromSlider * 100.0);
+            displayVal = displayVal * 0.01;
             displayStr = String(displayVal, 2) + " Hz";
+        }
+        else if (valueFromSlider < 100.0f)
+        {
+            displayVal = (int) (valueFromSlider * 10.0);
+            displayVal = displayVal * 0.1;
+            displayStr = String(displayVal, 1) + " Hz";
         }
         else{
             displayVal = (int) valueFromSlider;

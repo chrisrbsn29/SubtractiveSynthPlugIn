@@ -33,6 +33,7 @@ public:
     void valueChanged() override;
     void mouseDoubleClick(const MouseEvent&) override;
     double getValueFromText (const String& text) override;
+    void updateDisplayValue(float valueFromSlider);
     void textChanged();
     
     void labelTextChanged(Label *labelThatHasChanged) override;
@@ -41,7 +42,7 @@ public:
     
 private:
     void init(ValueType vt);
-    void updateDisplayValue(float valueFromSlider);
+    
     
     Label label;
     ValueType valueType;

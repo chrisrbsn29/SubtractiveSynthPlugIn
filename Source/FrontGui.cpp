@@ -88,6 +88,25 @@ FrontGui::FrontGui(SubtractiveSynthPlugInAudioProcessor& p) : qValSlider(CustomS
     lowPassAmount = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.tree, "lowpass-amount", lpAmountSlider);
     lowPassFreq = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.tree, "lowpass-freq", lpFreqSlider);
     envFilter = std::make_unique<AudioProcessorValueTreeState::SliderAttachment>(processor.tree, "env-filter", envFilterSlider);
+    
+    //visually set to default values
+    qValSlider.updateDisplayValue(qValSlider.getValue());
+    attackSlider.updateDisplayValue(attackSlider.getValue());
+    decaySlider.updateDisplayValue(decaySlider.getValue());
+    sustainSlider.updateDisplayValue(sustainSlider.getValue());
+    releaseSlider.updateDisplayValue(releaseSlider.getValue());
+    volumeSlider.updateDisplayValue(volumeSlider.getValue());
+    garbageSlider.updateDisplayValue(garbageSlider.getValue());
+    garbageWetDrySlider.updateDisplayValue(garbageWetDrySlider.getValue());
+    sineSlider.updateDisplayValue(sineSlider.getValue());
+    triSlider.updateDisplayValue(triSlider.getValue());
+    squSlider.updateDisplayValue(squSlider.getValue());
+    sawSlider.updateDisplayValue(sawSlider.getValue());
+    lfoAmountSlider.updateDisplayValue(lfoAmountSlider.getValue());
+    lfoSpeedSlider.updateDisplayValue(lfoSpeedSlider.getValue());
+    lpAmountSlider.updateDisplayValue(lpAmountSlider.getValue());
+    lpFreqSlider.updateDisplayValue(lpFreqSlider.getValue());
+    envFilterSlider.updateDisplayValue(envFilterSlider.getValue());
 }
 
 FrontGui::~FrontGui()
