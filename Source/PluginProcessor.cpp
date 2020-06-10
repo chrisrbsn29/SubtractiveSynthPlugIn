@@ -29,7 +29,6 @@ SubtractiveSynthPlugInAudioProcessor::SubtractiveSynthPlugInAudioProcessor()
         std::make_unique<AudioParameterFloat>("sustain-value", "Sustain", NormalisableRange<float>(0.0f, 100.0f, 1.0f, 1.0f), 80.0f),
         std::make_unique<AudioParameterFloat>("release-value", "Release", NormalisableRange<float>(0.00001f, 60.0f, 0.00001f, 0.2f), 0.1f),
         std::make_unique<AudioParameterFloat>("q-value", "qVal", NormalisableRange<float>(0.0f, 100.0f, 1.0f, 1.0f), 80.0f),
-        std::make_unique<AudioParameterFloat>("polyphony-value", "Polyphony", NormalisableRange<float>(1.0f, 12.0f, 1.0f, 1.0f), 8.0f),
         std::make_unique<AudioParameterFloat>("volume-value", "Volume", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 50.0f),
         std::make_unique<AudioParameterFloat>("garbage-value", "Garbage", NormalisableRange<float>(0.0f, 100.0f, 0.01f, 1.0f), 0.0f),
         std::make_unique<AudioParameterFloat>("garbage-wet-dry", "Garbage Wet/Dry", NormalisableRange<float>(0.0f, 100.0f, 1.0f, 1.0f), 0.0f),
@@ -37,6 +36,11 @@ SubtractiveSynthPlugInAudioProcessor::SubtractiveSynthPlugInAudioProcessor()
         std::make_unique<AudioParameterFloat>("tri-val", "Triange Val", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
         std::make_unique<AudioParameterFloat>("squ-val", "Square Val", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
         std::make_unique<AudioParameterFloat>("saw-val", "Sawtooth Val", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
+        std::make_unique<AudioParameterFloat>("lfo-amount", "Pitch LFO Amount", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
+        std::make_unique<AudioParameterFloat>("lfo-speed", "Pitch LFO Speed", NormalisableRange<float>(1.0f, 100.0f, 0.0f, 0.50f), 1.0f),
+        std::make_unique<AudioParameterFloat>("env-filter", "Envelope Filter Amount", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
+        std::make_unique<AudioParameterFloat>("lowpass-amount", "Lowpass Filter Amount", NormalisableRange<float>(0.0f, 100.0f, 0.0f, 1.0f), 0.0f),
+        std::make_unique<AudioParameterFloat>("lowpass-freq", "Lowpass Filter Frequency", NormalisableRange<float>(100.0f, 20000.0f, 0.0f, 0.10f), 20000.0f)
     })
 
 #endif
@@ -179,6 +183,11 @@ void SubtractiveSynthPlugInAudioProcessor::processBlock (AudioBuffer<float>& buf
                                    tree.getRawParameterValue("tri-val"),
                                    tree.getRawParameterValue("squ-val"),
                                    tree.getRawParameterValue("saw-val"));
+            voice->getLfoAndFilters(tree.getRawParameterValue("lfo-amount"),
+                                    tree.getRawParameterValue("lfo-speed"),
+                                    tree.getRawParameterValue("lowpass-amount"),
+                                    tree.getRawParameterValue("lowpass-freq"),
+                                    tree.getRawParameterValue("env-filter"));
             if(voice->isVoiceActive())
             {
                 activeVoiceCounter++;

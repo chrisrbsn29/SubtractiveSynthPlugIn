@@ -13,7 +13,7 @@
 #include <JuceHeader.h>
 
 #include "SynthSound.h"
-#include "Oscillator.h"
+#include "WavetableOscillator.h"
 
 //==============================================================================
 class SynthVoice   : public SynthesiserVoice
@@ -42,23 +42,29 @@ public:
     void processGarbo(AudioBuffer<float>& outputBuffer);
     void updateWaveforms(std::atomic<float>* sine, std::atomic<float>* tri, std::atomic<float>* squ, std::atomic<float>* saw);
     void createWavetables();
+    void getLfoAndFilters(std::atomic<float>* lfoAmount, std::atomic<float>* lfoSpeed, std::atomic<float>* loPassAmt, std::atomic<float>* loPassFreq, std::atomic<float>* envFilt);
+    void processLowPassFilter(juce::dsp::AudioBlock<float>& block);
+    double noteHz(int midiNoteNumber, double centsOffset);
 
     AudioBuffer<float> sineTable;
     AudioBuffer<float> triTable;
     AudioBuffer<float> squTable;
     AudioBuffer<float> sawTable;
     
-    std::unique_ptr<Oscillator> sineOsc;
-    std::unique_ptr<Oscillator> triOsc;
-    std::unique_ptr<Oscillator> squOsc;
-    std::unique_ptr<Oscillator> sawOsc;
+    std::unique_ptr<WavetableOscillator> sineOsc;
+    std::unique_ptr<WavetableOscillator> triOsc;
+    std::unique_ptr<WavetableOscillator> squOsc;
+    std::unique_ptr<WavetableOscillator> sawOsc;
+    std::unique_ptr<WavetableOscillator> pitchLfo;
     
     
 private:
-    void wavetableHelper(const int harmonics[], const float harmonicWeights[], AudioBuffer<float>& table);
+    void wavetableHelper(const int harmonics[], const float harmonicWeights[], AudioBuffer<float>& table,  const int numHarms);
+    void setOscFreq();
+    void processLfo();
     
     const int numHarmonics = 8;
-    const int tableSize = 128;
+    const int tableSize = 256;
     double level = 0.0;
     double lastSample[2];
     bool isOn = false;
@@ -66,9 +72,11 @@ private:
     double frequency;
     juce::dsp::ProcessorDuplicator<dsp::IIR::Filter<float>, dsp::IIR::Coefficients<float>> bpFilter;
     juce::dsp::ProcessorDuplicator<dsp::IIR::Filter<float>, dsp::IIR::Coefficients<float>> bpFilter2;
+    juce::dsp::ProcessorDuplicator<dsp::IIR::Filter<float>, dsp::IIR::Coefficients<float>> lowPassFilter;
     dsp::ProcessSpec spec;
     juce::HeapBlock<char> heapBlock;
     juce::dsp::AudioBlock<float> tempBlock;
+    juce::dsp::AudioBlock<float> lpTempBlock;
     juce::AudioBuffer<float> garboBuffer;
     int samplesPerBlock;
     float ogFreq;
@@ -89,6 +97,15 @@ private:
     ADSR adsr;
     ADSR::Parameters adsrParams;
     double adsrSample;
-    
+    float sineSample;
+    float triSample;
+    float squSample;
+    float sawSample;
+    float pitchLfoAmount;
+    float pitchLfoSpeed;
+    float envFilterAmount;
+    float lowPassFreq;
+    float lowPassAmount;
+    float currPitchBendOffset;
 
 };

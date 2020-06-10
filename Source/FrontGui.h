@@ -34,7 +34,6 @@ private:
     CustomSlider decaySlider;
     CustomSlider sustainSlider;
     CustomSlider releaseSlider;
-    CustomSlider polySlider;
     CustomSlider volumeSlider;
     CustomSlider garbageSlider;
     CustomSlider garbageWetDrySlider;
@@ -42,12 +41,16 @@ private:
     CustomSlider triSlider;
     CustomSlider squSlider;
     CustomSlider sawSlider;
+    CustomSlider lfoAmountSlider;
+    CustomSlider lfoSpeedSlider;
+    CustomSlider lpAmountSlider;
+    CustomSlider lpFreqSlider;
+    CustomSlider envFilterSlider;
     Label attackLabel;
     Label decayLabel;
     Label sustainLabel;
     Label releaseLabel;
     Label purityLabel;
-    Label polyLabel;
     Label volumeLabel;
     Label garbageLabel;
     Label garbageWetDryLabel;
@@ -55,6 +58,11 @@ private:
     Label triLabel;
     Label squLabel;
     Label sawLabel;
+    Label lfoAmountLabel;
+    Label lfoSpeedLabel;
+    Label lpAmountLabel;
+    Label lpFreqLabel;
+    Label envFilterLabel;
     Font inconsolata;
     
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> qVal;
@@ -62,7 +70,6 @@ private:
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> decayVal;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> sustainVal;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> releaseVal;
-    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> polyphonyVal;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> volumeVal;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> garbageVal;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> garbageWetDryVal;
@@ -70,6 +77,11 @@ private:
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> triVal;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> squVal;
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> sawVal;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> lfoAmount;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> lfoSpeed;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> lowPassAmount;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> lowPassFreq;
+    std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> envFilter;
     
     SubtractiveSynthPlugInAudioProcessor& processor;
     

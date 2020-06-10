@@ -14,6 +14,7 @@
 SynthVoice::SynthVoice( int samplesPerBlockExpected )
     :bpFilter(dsp::IIR::Coefficients<float>::makeBandPass (getSampleRate(), 20000.0f, 0.0001f)),
     bpFilter2(dsp::IIR::Coefficients<float>::makeBandPass (getSampleRate(), 20000.0f, 0.0001f)),
+    lowPassFilter(dsp::IIR::Coefficients<float>::makeBandPass (getSampleRate(), 20000.0f)),
     freqRatio(MidiMessage::getMidiNoteInHertz(16)/MidiMessage::getMidiNoteInHertz(18)), //18 because 16+PITCHBEND
     qVal(0.0001f)
 {
@@ -25,13 +26,15 @@ SynthVoice::SynthVoice( int samplesPerBlockExpected )
     dsp::AudioBlock<float> block;
         
     lastVolume = 1.0f;
+    currPitchBendOffset = 1.0f;
     
     createWavetables();
     
-    sineOsc = std::make_unique<Oscillator>(sineTable);
-    triOsc = std::make_unique<Oscillator>(triTable);
-    squOsc = std::make_unique<Oscillator>(squTable);
-    sawOsc = std::make_unique<Oscillator>(sawTable);
+    sineOsc = std::make_unique<WavetableOscillator>(sineTable);
+    triOsc = std::make_unique<WavetableOscillator>(triTable);
+    squOsc = std::make_unique<WavetableOscillator>(squTable);
+    sawOsc = std::make_unique<WavetableOscillator>(sawTable);
+    pitchLfo = std::make_unique<WavetableOscillator>(sineTable);
 }
 
 bool SynthVoice::canPlaySound (SynthesiserSound* sound){
@@ -43,6 +46,7 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity,
     
     bpFilter.reset();
     bpFilter2.reset();
+    lowPassFilter.reset();
     noteNumber = midiNoteNumber;
     
     adsr.noteOn();
@@ -52,14 +56,11 @@ void SynthVoice::startNote (int midiNoteNumber, float velocity,
     frequency = ogFreq = MidiMessage::getMidiNoteInHertz (midiNoteNumber);
     
     updateFilter();
+    setOscFreq();
     tempBlock = juce::dsp::AudioBlock<float> (heapBlock, spec.numChannels, spec.maximumBlockSize);
     bpFilter.prepare(spec);
     bpFilter2.prepare(spec);
-    
-    sineOsc->setFrequency(frequency, getSampleRate());
-    triOsc->setFrequency(frequency, getSampleRate());
-    squOsc->setFrequency(frequency, getSampleRate());
-    sawOsc->setFrequency(frequency, getSampleRate());
+    lowPassFilter.prepare(spec);
     
 }
 
@@ -74,6 +75,7 @@ void SynthVoice::endNote(){
     isOn = false;
     bpFilter.reset();
     bpFilter2.reset();
+    lowPassFilter.reset();
 }
 
 void SynthVoice::setPitchBend(int pitchWheelPos)
@@ -104,19 +106,19 @@ float SynthVoice::pitchBendCents()
     }
 }
 
-static double noteHz(int midiNoteNumber, double centsOffset)
+double SynthVoice::noteHz(int midiNoteNumber, double centsOffset)
 {
     double hertz = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-    hertz *= std::pow(2.0, centsOffset / 1200);
+    currPitchBendOffset = std::pow(2.0, centsOffset / 1200);
+    hertz *= currPitchBendOffset;
     return hertz;
 }
 
 
-void SynthVoice::pitchWheelMoved (int newPitchWheelValue){
-    
+void SynthVoice::pitchWheelMoved (int newPitchWheelValue)
+{
     setPitchBend(newPitchWheelValue);
     frequency = noteHz(noteNumber, pitchBendCents());
-    
 }
 
 void SynthVoice::controllerMoved (int, int){}
@@ -127,8 +129,9 @@ void SynthVoice::updateFilter(){
     
     *bpFilter.state = *dsp::IIR::Coefficients<float>::makeBandPass (getSampleRate(), frequency, qVal);
     *bpFilter2.state = *dsp::IIR::Coefficients<float>::makeBandPass (getSampleRate(), frequency, qVal);
-
+    *lowPassFilter.state = *dsp::IIR::Coefficients<float>::makeLowPass (getSampleRate(), lowPassFreq);
 }
+
 void SynthVoice::renderNextBlock (AudioBuffer<float>& outputBuffer, int startSample, int numSamples)
 {
     if( isOn )
@@ -137,12 +140,14 @@ void SynthVoice::renderNextBlock (AudioBuffer<float>& outputBuffer, int startSam
         garboBuffer = AudioBuffer<float>( outputBuffer.getNumChannels(), outputBuffer.getNumSamples());
         block.clear();
         updateFilter();
+        setOscFreq();
         
         adsr.setParameters(adsrParams);
 
         for (auto sample = 0; sample < numSamples; ++sample)  //load up with noise values
         {
             auto currentSample = level * (-0.25f + (0.5f * (float) random.nextFloat()));
+            if( pitchLfoAmount > 0.0f ) processLfo();
                 
             for (auto i = 0; i < outputBuffer.getNumChannels(); ++i )
             {
@@ -157,24 +162,38 @@ void SynthVoice::renderNextBlock (AudioBuffer<float>& outputBuffer, int startSam
         {
             if(lastVolume != targetVolume) rampVolume();
             adsrSample = adsr.getNextSample();
-            if (adsrSample == 0)
-            {
-                endNote();
-//                return;
-            }
+            
+            if( sineVal > 0.0f) sineSample = sineOsc->getNextSample();
+            if( triVal > 0.0f) triSample = triOsc->getNextSample();
+            if( squVal > 0.0f) squSample = squOsc->getNextSample();
+            if( sawVal > 0.0f) sawSample = sawOsc->getNextSample();
+            
+            if (adsrSample == 0) endNote();
+
             for (auto i = 0; i < outputBuffer.getNumChannels(); ++i )
             {
                 block.setSample(i, sample, block.getSample(i, sample) * (1.0f + qVal) * adsrSample * lastVolume);
+                
+                if( sineVal > 0.0f) block.addSample(i, sample, sineVal * sineSample * adsrSample * lastVolume);
+                if( triVal > 0.0f) block.addSample(i, sample, triVal * triSample * adsrSample * lastVolume);
+                if( squVal > 0.0f) block.addSample(i, sample, squVal * squSample * adsrSample * lastVolume);
+                if( sawVal > 0.0f) block.addSample(i, sample, sawVal * sawSample * adsrSample * lastVolume);
             }
         }
-        juce::dsp::AudioBlock<float> (outputBuffer)
-            .getSubBlock ((size_t) startSample, (size_t) numSamples)
-            .add (tempBlock);
         
-        if (garboVal > 0.0f && garboWetDry > 0.0f) //garbage value sound
+        //garbage value sound
+        if (garboVal > 0.0f && garboWetDry > 0.0f)
         {
             processGarbo(outputBuffer);
         }
+        
+        //lowpass filter
+        if( lowPassAmount > 0.0f)
+            processLowPassFilter(block);
+        
+        juce::dsp::AudioBlock<float> (outputBuffer)
+        .getSubBlock ((size_t) startSample, (size_t) numSamples)
+        .add (tempBlock);
     }
 }
 
@@ -202,10 +221,10 @@ void SynthVoice::getEnvelopeParams(std::atomic<float>* attack, std::atomic<float
 
 void SynthVoice::updateWaveforms(std::atomic<float>* sine, std::atomic<float>* tri, std::atomic<float>* squ, std::atomic<float>* saw)
 {
-    sineVal = *sine;
-    triVal = *tri;
-    squVal = *squ;
-    sawVal = *saw;
+    sineVal = pow(2, *sine * 0.05f) * 0.001f;
+    triVal = pow(2, *tri * 0.05f) * 0.001f;
+    squVal = pow(2, *squ * 0.05f) * 0.001f;
+    sawVal = pow(2, *saw * 0.05f) * 0.001f;
 }
 
 void SynthVoice::setADSRSampleRate(double sr)
@@ -230,7 +249,7 @@ void SynthVoice::rampVolume()
     }
 }
 
-void SynthVoice::processGarbo(AudioBuffer<float>& outputBuffer)
+inline void SynthVoice::processGarbo(AudioBuffer<float>& outputBuffer)
 {
     for (auto i = 0; i < outputBuffer.getNumChannels(); ++i)
     {
@@ -254,7 +273,7 @@ void SynthVoice::processGarbo(AudioBuffer<float>& outputBuffer)
 
 void SynthVoice::createWavetables()
 {
-    sineTable.setSize(1, tableSize + 1); //1 << 7 plus one for wrapping
+    sineTable.setSize(1, tableSize + 1); //1 << 8 plus one for wrapping
     triTable.setSize(1, tableSize + 1);
     squTable.setSize(1, tableSize + 1);
     sawTable.setSize(1, tableSize + 1);
@@ -270,19 +289,19 @@ void SynthVoice::createWavetables()
     float sawWeights[] = { 1.0f, 0.5f, 0.33f, 0.25f, 0.02f, 0.166667f, 0.14285f, 0.125f};
     float triangleWeights[] = { 1.0f, 0.111f, 0.04f, 0.02040816f, 0.012345679f, 0.00826446f, 0.00591716f, 0.004444444f};
 
-    wavetableHelper(oddHarms, sineWeights, sineTable);
-    wavetableHelper(oddHarms, triangleWeights, triTable);
-    wavetableHelper(oddHarms, squareWeights, squTable);
-    wavetableHelper(everyHarm, sawWeights, sawTable);
+    wavetableHelper(oddHarms, sineWeights, sineTable, 1);
+    wavetableHelper(oddHarms, triangleWeights, triTable, numHarmonics);
+    wavetableHelper(oddHarms, squareWeights, squTable, numHarmonics);
+    wavetableHelper(everyHarm, sawWeights, sawTable, numHarmonics);
 }
 
-void SynthVoice::wavetableHelper(const int harmonics[], const float harmonicWeights[], AudioBuffer<float>& table)
+void SynthVoice::wavetableHelper(const int harmonics[], const float harmonicWeights[], AudioBuffer<float>& table, const int numHarms)
 {
     auto* samples = table.getWritePointer (0);
     
-    for( int harmonic = 0; harmonic < numHarmonics; harmonic++ )
+    for( int harmonic = 0; harmonic < numHarms; harmonic++ )
     {
-        auto angleDelta = MathConstants<double>::twoPi / (double) (tableSize - 1) * harmonics[harmonic];
+        auto angleDelta = MathConstants<double>::twoPi / (double) (tableSize) * harmonics[harmonic];
         auto currentAngle = 0.0;
         
         for (int i = 0; i < tableSize; i++)
@@ -294,4 +313,47 @@ void SynthVoice::wavetableHelper(const int harmonics[], const float harmonicWeig
     }
     samples[tableSize] = samples[0];
 }
+
+void SynthVoice::setOscFreq()
+{
+    sineOsc->setFrequency(frequency, getSampleRate());
+    triOsc->setFrequency(frequency, getSampleRate());
+    squOsc->setFrequency(frequency, getSampleRate());
+    sawOsc->setFrequency(frequency, getSampleRate());
+    pitchLfo->setFrequency(pitchLfoSpeed, getSampleRate());
+}
     
+void SynthVoice::getLfoAndFilters(std::atomic<float>* lfoAmount, std::atomic<float>* lfoSpeed, std::atomic<float>* loPassAmt, std::atomic<float>* loPassFreq, std::atomic<float>* envFilt)
+{
+    pitchLfoAmount = *lfoAmount * 0.01f;
+    pitchLfoSpeed = *lfoSpeed;
+    envFilterAmount = *envFilt * 0.01f;
+    lowPassAmount = *loPassAmt * 0.01f;
+    lowPassFreq = *loPassFreq;
+}
+
+inline void SynthVoice::processLowPassFilter(juce::dsp::AudioBlock<float>& block)
+{
+    if (lowPassAmount == 1.0f)
+        lowPassFilter.process(dsp::ProcessContextReplacing<float>(block));
+    else
+    {
+        lpTempBlock = tempBlock.getSubBlock (0, (size_t) block.getNumSamples());
+        lpTempBlock.clear();
+        lpTempBlock.copyFrom(block);
+        lowPassFilter.process(dsp::ProcessContextReplacing<float>(block));
+        for (auto i = 0; i < block.getNumChannels(); ++i)
+        {
+            for (auto sample = 0; sample < block.getNumSamples(); ++sample)
+            {
+                block.setSample(i, sample, lowPassAmount * block.getSample(i, sample) + (1.0f - lowPassAmount) * lpTempBlock.getSample(i, sample) );
+            }
+        }
+    }
+}
+
+void SynthVoice::processLfo()
+{
+    auto lfoSample = pitchLfo->getNextSample() * pitchLfoAmount * 2.0f; //max lfo = 2 semitones
+    frequency = MidiMessage::getMidiNoteInHertz(noteNumber) * pow(2, lfoSample / 12) * currPitchBendOffset;
+}

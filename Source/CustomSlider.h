@@ -21,7 +21,7 @@ public:
     enum ValueType{
         Seconds,
         Percent,
-        Decibels,
+        Hz,
         Neutral
     };
     

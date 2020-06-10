@@ -78,10 +78,18 @@ void CustomSlider::updateDisplayValue(float valueFromSlider)
         displayVal = (int) valueFromSlider;
         displayStr = String(displayVal);
     }
-    else if (valueType == ValueType::Decibels)
+    else if (valueType == ValueType::Hz)
     {
-        displayVal = (int) valueFromSlider;
-        displayStr = String(displayVal) + "db";
+        if (valueFromSlider < 10.0f)
+        {
+            displayVal = (int) valueFromSlider * 10.0;
+            displayVal = displayVal * 0.1;
+            displayStr = String(displayVal, 2) + " Hz";
+        }
+        else{
+            displayVal = (int) valueFromSlider;
+            displayStr = String(displayVal) + " Hz";
+        }
     }
     else
     { //if percent

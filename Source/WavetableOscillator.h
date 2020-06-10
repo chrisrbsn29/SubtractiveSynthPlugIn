@@ -1,7 +1,7 @@
 /*
   ==============================================================================
 
-    Oscillator.h
+    WavetableOscillator.h
     Created: 6 Jun 2020 10:09:47pm
     Author:  Chris Robinson
 
@@ -13,13 +13,13 @@
 #include <JuceHeader.h>
 
 //==============================================================================
-class Oscillator
+class WavetableOscillator
 {
 public:
     
-    Oscillator(AudioBuffer<float>& wavetableToUse);
+    WavetableOscillator(AudioBuffer<float>& wavetableToUse);
     void setFrequency (float frequency, float sampleRate);
-    forcedinline float getNextSample() noexcept;
+    float getNextSample();
     
 private:
     const AudioSampleBuffer& wavetable;

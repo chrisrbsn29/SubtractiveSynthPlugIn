@@ -73,9 +73,9 @@
 			isa = PBXBuildFile;
 			fileRef = 3D093F2E6E634BFA72A3626F;
 		};
-		92C90AD8A692F91A9B87FF3E = {
+		C9C4176931371C78ECAC112B = {
 			isa = PBXBuildFile;
-			fileRef = B1653FD77314E8B6EEE7C36D;
+			fileRef = DCD95F746D760DB7B191BD70;
 		};
 		C2AAEA127E6E4B09E2DD3A77 = {
 			isa = PBXBuildFile;
@@ -257,6 +257,13 @@
 			lastKnownFileType = sourcecode.cpp.objcpp;
 			name = "include_juce_events.mm";
 			path = "../../JuceLibraryCode/include_juce_events.mm";
+			sourceTree = "SOURCE_ROOT";
+		};
+		207C06416EA6BD4EFA97D8A8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = WavetableOscillator.h;
+			path = ../../Source/WavetableOscillator.h;
 			sourceTree = "SOURCE_ROOT";
 		};
 		22BCB8489BB32D78478C6059 = {
@@ -560,20 +567,6 @@
 			path = "~/JUCE/modules/juce_data_structures";
 			sourceTree = "<absolute>";
 		};
-		A93EEEED78D4EEF4507E72C3 = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = Oscillator.h;
-			path = ../../Source/Oscillator.h;
-			sourceTree = "SOURCE_ROOT";
-		};
-		B1653FD77314E8B6EEE7C36D = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.cpp.cpp;
-			name = Oscillator.cpp;
-			path = ../../Source/Oscillator.cpp;
-			sourceTree = "SOURCE_ROOT";
-		};
 		B1B2663904BF08DB44D36B63 = {
 			isa = PBXFileReference;
 			lastKnownFileType = sourcecode.cpp.cpp;
@@ -601,6 +594,13 @@
 			name = "juce_events";
 			path = "~/JUCE/modules/juce_events";
 			sourceTree = "<absolute>";
+		};
+		CA2E580B7EA51664ECF4CB8E = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			name = FrontGui.h;
+			path = ../../Source/FrontGui.h;
+			sourceTree = "SOURCE_ROOT";
 		};
 		CF3EC80E7AFDDCEF2A157CCE = {
 			isa = PBXFileReference;
@@ -637,13 +637,6 @@
 			path = ../../Source/SynthVoice.h;
 			sourceTree = "SOURCE_ROOT";
 		};
-		CA2E580B7EA51664ECF4CB8E = {
-			isa = PBXFileReference;
-			lastKnownFileType = sourcecode.c.h;
-			name = FrontGui.h;
-			path = ../../Source/FrontGui.h;
-			sourceTree = "SOURCE_ROOT";
-		};
 		CFDBB7506F435448E06BE21F = {
 			isa = PBXFileReference;
 			lastKnownFileType = file;
@@ -657,6 +650,13 @@
 			includeInIndex = 0;
 			path = libSubtractiveSynthPlugIn.a;
 			sourceTree = "BUILT_PRODUCTS_DIR";
+		};
+		DCD95F746D760DB7B191BD70 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.cpp.cpp;
+			name = WavetableOscillator.cpp;
+			path = ../../Source/WavetableOscillator.cpp;
+			sourceTree = "SOURCE_ROOT";
 		};
 		DEB9C5C6ECFE5C6B77510A7F = {
 			isa = PBXFileReference;
@@ -731,8 +731,8 @@
 		9EDC2F6E4B21B96359D65383 = {
 			isa = PBXGroup;
 			children = (
-				B1653FD77314E8B6EEE7C36D,
-				A93EEEED78D4EEF4507E72C3,
+				DCD95F746D760DB7B191BD70,
+				207C06416EA6BD4EFA97D8A8,
 				F0CA40C967B5ECA2B6324303,
 				56C839A644CBCD92E3896C76,
 				FA0577091CF13E8B6FDF9398,
@@ -1469,7 +1469,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92C90AD8A692F91A9B87FF3E,
+				C9C4176931371C78ECAC112B,
 				C2AAEA127E6E4B09E2DD3A77,
 				84DABBB8040919243C66D7F4,
 				81E15CCB14A14CC086FEB0B7,
